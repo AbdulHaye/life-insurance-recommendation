@@ -1,3 +1,6 @@
+
+
+
 import { Request, Response } from 'express';
 import { getRecommendation } from '../../services/recommendationService';
 import { insertUserSubmission } from '../../models/userSubmissionModel';
@@ -13,10 +16,19 @@ interface UserData {
 export const createRecommendation = async (req: Request, res: Response) => {
   const { age, income, dependents, riskTolerance } = req.body as UserData;
 
+  console.log('Received data:', { age, income, dependents, riskTolerance });
+
   // Input validation
-  if (!age || !income || !dependents || !riskTolerance) {
-    return res.status(400).json({ error: 'All fields are required' });
-  }
+// ...existing code...
+if (
+  age === undefined ||
+  income === undefined ||
+  dependents === undefined ||
+  riskTolerance === undefined
+) {
+  return res.status(400).json({ error: 'All fields are required' });
+}
+// ...existing code...
   if (typeof age !== 'number' || age < 18 || age > 100) {
     return res.status(400).json({ error: 'Age must be between 18 and 100' });
   }

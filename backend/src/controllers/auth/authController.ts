@@ -1,7 +1,11 @@
+
+
 import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { createUser, findUserByEmail } from '../../models/userModel';
+import dotenv from 'dotenv';
+dotenv.config()
 
 interface AuthData {
   email: string;
@@ -9,6 +13,7 @@ interface AuthData {
 }
 
 const JWT_SECRET = process.env.JWT_SECRET as string;
+console.log('JWT_SECRET:', JWT_SECRET);
 
 export const register = async (req: Request, res: Response) => {
   const { email, password } = req.body as AuthData;
@@ -53,3 +58,4 @@ export const login = async (req: Request, res: Response) => {
     res.status(500).json({ error: 'Login failed' });
   }
 };
+

@@ -1,9 +1,16 @@
+
+
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+dotenv.config()
 
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
+
+const JWT_SECRET = process.env.JWT_SECRET as string;
 
 export const authenticate = (req: Request, res: Response, next: NextFunction) => {
+
+  console.log('Authentication middleware triggered');
   const authHeader = req.headers.authorization;
   if (!authHeader) {
     return res.status(401).json({ error: 'No token provided' });
