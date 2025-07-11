@@ -13,7 +13,19 @@ dotenv.config();
 const app: Application = express();
 
 // Middleware
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: [
+      "Content-Type",
+      "Accept",
+      "Authorization",
+      "x-skip-redirect",
+    ],
+  })
+);
 app.use(express.json());
 
 // Rate limiting (security feature)
@@ -31,7 +43,7 @@ export const pool = new Pool({
 
 // Routes
 app.use('/api', recommendationRoutes);
-app.use('/', authRoutes);
+app.use('/api', authRoutes);
 
 // Health check endpoint
 app.get('/health', (req, res) => {
