@@ -1,46 +1,49 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { useForm } from "react-hook-form"
-import { login, register as registerUser } from "../utils/api"
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { login, register as registerUser } from "../utils/api";
 
 interface AuthFormProps {
-  setToken: (token: string) => void
-  setError: (error: string | null) => void
+  setToken: (token: string) => void;
+  setError: (error: string | null) => void;
 }
 
 interface AuthData {
-  email: string
-  password: string
+  email: string;
+  password: string;
 }
 
 export default function AuthForm({ setToken, setError }: AuthFormProps) {
-  const [isLogin, setIsLogin] = useState(true)
-  const [showPassword, setShowPassword] = useState(false)
-  const [loading, setLoading] = useState(false)
+  const [isLogin, setIsLogin] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<AuthData>()
+  } = useForm<AuthData>();
 
   const onSubmit = async (data: AuthData) => {
-    setLoading(true)
-    setError(null)
+    setLoading(true);
+    setError(null);
 
     try {
-      const response = isLogin ? await login(data) : await registerUser(data)
-      localStorage.setItem("token", response.token)
-      setToken(response.token)
-      reset()
+      const response = isLogin ? await login(data) : await registerUser(data);
+      localStorage.setItem("token", response.token);
+      setToken(response.token);
+      reset();
     } catch (err) {
-      setError((err as Error).message || (isLogin ? "Login failed" : "Registration failed"))
+      setError(
+        (err as Error).message ||
+          (isLogin ? "Login failed" : "Registration failed")
+      );
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <div className="bg-white shadow-2xl rounded-2xl p-8 border border-gray-100">
@@ -49,14 +52,19 @@ export default function AuthForm({ setToken, setError }: AuthFormProps) {
           {isLogin ? "Welcome Back" : "Create Account"}
         </h2>
         <p className="text-gray-600">
-          {isLogin ? "Sign in to access your insurance dashboard" : "Join thousands of protected families"}
+          {isLogin
+            ? "Sign in to access your insurance dashboard"
+            : "Join thousands of protected families"}
         </p>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         <div className="space-y-4">
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-700 mb-2"
+            >
               Email Address
             </label>
             <div className="relative">
@@ -67,7 +75,7 @@ export default function AuthForm({ setToken, setError }: AuthFormProps) {
                 id="email"
                 type="email"
                 placeholder="Enter your email"
-                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-gray-900 placeholder-gray-500"
                 {...register("email", {
                   required: "Email is required",
                   pattern: {
@@ -78,12 +86,17 @@ export default function AuthForm({ setToken, setError }: AuthFormProps) {
               />
             </div>
             {errors.email && (
-              <p className="mt-1 text-red-500 text-sm font-medium">{errors.email.message}</p>
+              <p className="mt-1 text-red-500 text-sm font-medium">
+                {errors.email.message}
+              </p>
             )}
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-700 mb-2"
+            >
               Password
             </label>
             <div className="relative">
@@ -94,7 +107,7 @@ export default function AuthForm({ setToken, setError }: AuthFormProps) {
                 id="password"
                 type={showPassword ? "text" : "password"}
                 placeholder="Enter your password"
-                className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-gray-900 placeholder-gray-500"
                 {...register("password", {
                   required: "Password is required",
                   minLength: {
@@ -112,7 +125,9 @@ export default function AuthForm({ setToken, setError }: AuthFormProps) {
               </button>
             </div>
             {errors.password && (
-              <p className="mt-1 text-red-500 text-sm font-medium">{errors.password.message}</p>
+              <p className="mt-1 text-red-500 text-sm font-medium">
+                {errors.password.message}
+              </p>
             )}
           </div>
         </div>
@@ -157,5 +172,5 @@ export default function AuthForm({ setToken, setError }: AuthFormProps) {
         </button>
       </div>
     </div>
-  )
+  );
 }

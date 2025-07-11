@@ -116,7 +116,7 @@ export default function RecommendationForm({
                 id={field.name}
                 type={field.type}
                 placeholder={field.placeholder}
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-gray-900 placeholder-gray-500"
                 {...register(field.name, field.validation)}
               />
               {errors[field.name] && (
