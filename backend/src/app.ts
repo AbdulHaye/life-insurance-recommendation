@@ -5,6 +5,7 @@ import rateLimit from 'express-rate-limit';
 import { Pool } from 'pg';
 import recommendationRoutes from './routes/recommendation/recommendationRoutes';
 import authRoutes from './routes/auth/authRoutes';
+import { initTables } from './models/initTables';
 
 // Load environment variables
 dotenv.config();
@@ -40,6 +41,12 @@ app.use(limiter);
 export const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
 });
+
+
+initTables()
+  .then(() => console.log('Tables checked/created'))
+  .catch((err) => console.error('Error creating tables:', err));
+
 
 // Routes
 app.use('/api', recommendationRoutes);
